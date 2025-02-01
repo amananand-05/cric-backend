@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const tables = require("../db/tables");
+const e = require("express");
 
 function getTableDescription() {
   return {
@@ -26,15 +27,12 @@ function getTableDescription() {
 }
 
 function aggregateData(
-  table,
+  tableData,
   dimensions,
   metrics,
   filters,
   metricsAgg = "sum",
 ) {
-  let tableData =
-    table === "deliveries" ? tables.deliveriesTable : tables.matchesTable;
-
   // Step 1: Apply filters
   let filteredData = tableData;
   if (filters) {
@@ -118,7 +116,34 @@ function parseValue(key, value) {
   return value; // Keep as string
 }
 
+function getReports(reportType, reqQuery) {
+  switch (reportType) {
+    case "venue-report":
+      return getVenueReport(reqQuery);
+    case "dummy-report1":
+      return {};
+    case "dummy-report2":
+      return {};
+    default:
+      return {};
+  }
+}
+
+function getVenueReport(reqQuery) {
+  const { venue } = reqQuery;
+  const venueMatches = tables.matchesTable.filter(
+    (match) => match.venue === venue,
+  );
+
+  return {
+    totalMatches: venueMatches.length,
+    avgTarget: aggregateData(venueMatches, [], ["target_runs"], {}, "avg")?.[0]
+      .target_runs,
+  };
+}
+
 exports.parseValue = parseValue;
 exports.parseRow = parseRow;
 exports.aggregateData = aggregateData;
 exports.getTableDescription = getTableDescription;
+exports.getReports = getReports;

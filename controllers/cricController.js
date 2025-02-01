@@ -1,4 +1,5 @@
 const cricService = require("../services/cricService");
+const tables = require("../db/tables");
 
 exports.getDescription = async (req, res, next) => {
   try {
@@ -37,7 +38,7 @@ exports.getTableData = async (req, res, next) => {
       }, {});
 
     const result = cricService.aggregateData(
-      table,
+      table === "deliveries" ? tables.deliveriesTable : tables.matchesTable,
       dimensions,
       metrics,
       filters,
@@ -50,6 +51,17 @@ exports.getTableData = async (req, res, next) => {
     res.json(result);
   } catch (error) {
     console.log("Error while loading table data:", error);
+    next(error);
+  }
+};
+
+exports.getReports = async (req, res, next) => {
+  try {
+    const { reportType = "venue-report" } = req.query;
+    const result = cricService.getReports(reportType, req.query);
+    res.json(result);
+  } catch (error) {
+    console.log("Error while loading reports:", error);
     next(error);
   }
 };
