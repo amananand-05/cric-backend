@@ -1,6 +1,5 @@
 const _ = require("lodash");
 const tables = require("../db/tables");
-const e = require("express");
 
 function getTableDescription() {
   return {
