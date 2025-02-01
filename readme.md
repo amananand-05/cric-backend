@@ -114,7 +114,27 @@ sample curl:
 ```text
 curl --location 'http://localhost:8080/cric/deliveries?metrics=total_runs&dimensions=batting_team%2Cbowling_team&filter%3Amatch_id=335982&filter%3Amatch_id=335984&filter%3Abowling_team=Kolkata%20Knight%20Riders&metricsAgg=sum'
 ```
-  
 
+## 3. [GET] http://localhost:8080/cric/reports
+
+- query params:
+  - `reportType` - report name ex: `venue-report`
+  - `xxx` - can be any supporting query params for the reportType selected ex: `venue=M Chinnaswamy Stadium`
+
+sample response:
+
+```json
+{
+  "venue": "M Chinnaswamy Stadium",
+  "totalMatches": 62,
+  "avgTarget": 167.24193548387098
+}
+```
+
+sample curl:
+
+```text
+curl --location 'http://localhost:8080/cric/reports?reportType=venue-report&venue=M%20Chinnaswamy%20Stadium'
+```
 
 

@@ -136,6 +136,7 @@ function getVenueReport(reqQuery) {
   );
 
   return {
+    venue: venue,
     totalMatches: venueMatches.length,
     avgTarget: aggregateData(venueMatches, [], ["target_runs"], {}, "avg")?.[0]
       .target_runs,
