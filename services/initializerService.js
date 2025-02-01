@@ -55,7 +55,9 @@ async function loadCsvData(deliveriesPath, matchesPath) {
   tables.deliveriesTable = deliveries.filter((x) => Object.keys(x).length > 0);
   tables.matchesTable = matches.filter((x) => Object.keys(x).length > 0);
   tables.ignoredRows = ignoredRows; // not in use
-  console.log("✅  Db tables loaded successfully.");
+  console.log("✅ matchesTable rows count: ", tables.matchesTable.length);
+  console.log("✅ deliveriesTable rows count: ", tables.deliveriesTable.length);
+  console.log("✅ Db tables loaded successfully");
 }
 
 module.exports = { loadTables };
