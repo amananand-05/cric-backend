@@ -75,7 +75,7 @@ sample response:
 
 sample curl:
 
-```json
+```text
 curl --location 'http://localhost:8080/cric/desc'
 ```
 
@@ -87,8 +87,8 @@ curl --location 'http://localhost:8080/cric/desc'
     - `metrics` - comma separated list of columns to be aggregated
     - `dimensions` - comma separated list of columns to be grouped by
     - `filters` - like `filter:match_id=335982&filter:match_id=335984&filter:bowling_team=Kolkata Knight Riders`
+      Will be interpreted as interpreted as
       ```json
-      // will be interpreted as interpreted as 
       {
         "match_id": ["335982", "335984"],
         "bowling_team": ["Kolkata Knight Riders"]
@@ -110,7 +110,7 @@ sample response:
 
 sample curl:
 
-```json
+```text
 curl --location 'http://localhost:8080/cric/deliveries?metrics=total_runs&dimensions=batting_team%2Cbowling_team&filter%3Amatch_id=335982&filter%3Amatch_id=335984&filter%3Abowling_team=Kolkata%20Knight%20Riders&metricsAgg=sum'
 ```
   
