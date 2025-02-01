@@ -1,9 +1,10 @@
 const fs = require("fs");
 const csvParser = require("csv-parser");
-const cricService = require("./cricService");
-const tables = require("../db/tables");
 
-exports.loadTables = async () => {
+const tables = require("../db/tables");
+const utils = require("../shared/utils");
+
+async function loadTables() {
   try {
     const deliveriesPath = "db/deliveries.csv";
     const matchesPath = "db/matches.csv";
@@ -19,9 +20,9 @@ exports.loadTables = async () => {
   } catch (error) {
     console.error("Error while loading database data:", error);
   }
-};
+}
 
-const loadCsvData = async (deliveriesPath, matchesPath) => {
+async function loadCsvData(deliveriesPath, matchesPath) {
   let deliveries = [];
   let matches = [];
   let type1 = [];
@@ -32,7 +33,7 @@ const loadCsvData = async (deliveriesPath, matchesPath) => {
     fs.createReadStream(deliveriesPath)
       .pipe(csvParser({ skipEmptyLines: true, maxRowBytes: 10 * 1024 })) // 10KB row limit
       .on("data", (row) =>
-        deliveries.push(cricService.parseRow(row, type1, ignoredRows)),
+        deliveries.push(utils.parseRow(row, type1, ignoredRows)),
       )
       .on("end", () => resolve(deliveries))
       .on("error", (err) =>
@@ -43,7 +44,7 @@ const loadCsvData = async (deliveriesPath, matchesPath) => {
     fs.createReadStream(matchesPath)
       .pipe(csvParser({ skipEmptyLines: true, maxRowBytes: 10 * 1024 })) // 10KB row limit
       .on("data", (row) =>
-        matches.push(cricService.parseRow(row, type2, ignoredRows)),
+        matches.push(utils.parseRow(row, type2, ignoredRows)),
       )
       .on("end", () => resolve(matches))
       .on("error", (err) =>
@@ -55,4 +56,6 @@ const loadCsvData = async (deliveriesPath, matchesPath) => {
   tables.matchesTable = matches.filter((x) => Object.keys(x).length > 0);
   tables.ignoredRows = ignoredRows; // not in use
   console.log("✅  Db tables loaded successfully.");
-};
+}
+
+module.exports = { loadTables };

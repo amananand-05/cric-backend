@@ -1,3 +1,5 @@
-exports.deliveriesTable = [];
-exports.matchesTable = [];
-exports.ignoredRows = []; // not in use
+deliveriesTable = [];
+matchesTable = [];
+ignoredRows = []; // not in use
+
+module.exports = { deliveriesTable, matchesTable, ignoredRows };

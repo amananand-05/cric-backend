@@ -1,7 +1,8 @@
 const cricService = require("../services/cricService");
 const tables = require("../db/tables");
+const utils = require("../shared/utils");
 
-exports.getDescription = async (req, res, next) => {
+async function getDescription(req, res, next) {
   try {
     const desc = cricService.getTableDescription();
     res.json(desc);
@@ -9,9 +10,9 @@ exports.getDescription = async (req, res, next) => {
     console.log("Error while loading CSV data:", error);
     next(error);
   }
-};
+}
 
-exports.getTableData = async (req, res, next) => {
+async function getTableData(req, res, next) {
   try {
     let { table } = req.params;
     let { metrics, dimensions, metricsAgg = "sum" } = req.query;
@@ -32,12 +33,12 @@ exports.getTableData = async (req, res, next) => {
       .reduce((acc, k) => {
         acc[k.substring(7)] = [
           ...(Array.isArray(req.query[k]) ? req.query[k] : [req.query[k]]),
-        ].map((x) => cricService.parseValue(k.substring(7), x)); // Use map to parse the values
+        ].map((x) => utils.parseValue(k.substring(7), x)); // Use map to parse the values
 
         return acc; // Make sure to return the accumulator
       }, {});
 
-    const result = cricService.aggregateData(
+    const result = utils.aggregateData(
       table === "deliveries" ? tables.deliveriesTable : tables.matchesTable,
       dimensions,
       metrics,
@@ -53,9 +54,9 @@ exports.getTableData = async (req, res, next) => {
     console.log("Error while loading table data:", error);
     next(error);
   }
-};
+}
 
-exports.getReports = async (req, res, next) => {
+async function getReports(req, res, next) {
   try {
     const { reportType = "venue-report" } = req.query;
     const result = cricService.getReports(reportType, req.query);
@@ -64,4 +65,10 @@ exports.getReports = async (req, res, next) => {
     console.log("Error while loading reports:", error);
     next(error);
   }
+}
+
+module.exports = {
+  getDescription,
+  getTableData,
+  getReports,
 };
