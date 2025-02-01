@@ -11,6 +11,8 @@
 
 3. `npm start`
 
+4. `npm run format` - to format code
+
 # Endpoints:
 
 ## 1. [GET] http://localhost:8080/cric/desc

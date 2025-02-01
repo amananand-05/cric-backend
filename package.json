@@ -1,9 +1,10 @@
 {
   "name": "cric-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js",
+    "format": "prettier --write '**/*.{js,json,css,html}'"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,8 @@
     "csv-parser": "^3.2.0",
     "express": "^4.21.2",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
   }
 }
