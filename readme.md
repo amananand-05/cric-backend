@@ -87,7 +87,8 @@ curl --location 'http://localhost:8080/cric/desc'
     - `metrics` - comma separated list of columns to be aggregated
     - `dimensions` - comma separated list of columns to be grouped by
     - `filters` - like `filter:match_id=335982&filter:match_id=335984&filter:bowling_team=Kolkata Knight Riders`
-      Will be interpreted as interpreted as
+      
+  Will be interpreted as interpreted as
       ```json
       {
         "match_id": ["335982", "335984"],
